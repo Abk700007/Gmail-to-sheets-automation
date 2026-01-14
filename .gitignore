@@ -1,0 +1,15 @@
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Google Credentials (CRITICAL - DO NOT REMOVE)
+credentials/
+token.json
+processed_emails.json
