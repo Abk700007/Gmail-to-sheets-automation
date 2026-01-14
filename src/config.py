@@ -6,7 +6,7 @@ SCOPES = [
 ]
 
 # PASTE YOUR WORKING SPREADSHEET ID HERE
-SPREADSHEET_ID = "1CmdcxqWYzqQ4_ZbzhVGdqpJWqXpR_6_6e3KfjvJZc1o" 
+SPREADSHEET_ID = "Enter you spreadsheet ID" 
 
 STATE_FILE = "processed_emails.json"
 BATCH_SIZE = 20
