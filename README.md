@@ -17,6 +17,9 @@ This tool automates the process of reading incoming emails from a Gmail account 
 
 ## Setup Instructions
 1.  **Clone the repository**
+     ```bash
+     git clone https://github.com/Abk700007/Gmail-to-sheets-automation.git
+     ```
 2.  **Install Dependencies:**
     ```bash
     pip install -r requirements.txt
