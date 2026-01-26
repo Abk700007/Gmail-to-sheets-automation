@@ -1,7 +1,5 @@
 import os
-import time  # <--- 
-import socket 
-from google.oauth2.credentials import Credentials
+from google.oauth2.credentials import Credentials  
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
@@ -59,10 +57,7 @@ def get_message_details(service, msg_id):
 def mark_messages_as_read(service, msg_ids):
     if not msg_ids:
         return
-    try:
-        service.users().messages().batchModify(
-            userId='me',
-            body={'ids': msg_ids, 'removeLabelIds': ['UNREAD']}
-        ).execute()
-    except Exception as e:
-        print(f"Warning: Could not mark as read: {e}")
+    service.users().messages().batchModify(
+        userId='me',
+        body={'ids': msg_ids, 'removeLabelIds': ['UNREAD']}
+    ).execute()

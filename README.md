@@ -5,6 +5,8 @@ This tool automates the process of reading incoming emails from a Gmail account 
 
 ## Architecture
 **Flow:** `Gmail API` -> `Python Script` -> `State Check` -> `Google Sheets API`
+<img width="673" height="681" alt="image" src="https://github.com/user-attachments/assets/64f4f5eb-8d00-40d3-9fce-44d88752f4ed" />
+
 
 1.  **Authentication:** Uses OAuth 2.0 (User Credentials) to securely access Gmail and Sheets.
 2.  **Fetch:** Retrieves only messages marked as `UNREAD`.
@@ -15,6 +17,9 @@ This tool automates the process of reading incoming emails from a Gmail account 
 
 ## Setup Instructions
 1.  **Clone the repository**
+     ```bash
+     git clone https://github.com/Abk700007/Gmail-to-sheets-automation.git
+     ```
 2.  **Install Dependencies:**
     ```bash
     pip install -r requirements.txt
