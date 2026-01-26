@@ -1,5 +1,14 @@
 # Gmail to Google Sheets Automation
 
+## 🚀 Day 1 Incubation Update (Post-Submission Modification)
+
+**Task Implemented:** Process only emails received in the last 24 hours.
+
+**Implementation Details:**
+* **Logic:** Added a `cutoff_time` check in `src/main.py` using Python's `email.utils.parsedate_to_datetime`.
+* **Behavior:** The script now checks the timestamp of every incoming email. If the email is older than 24 hours, it is marked as read (to prevent re-fetching) but **skipped** (not added to Google Sheets).
+* **Reasoning:** This modification ensures the automation focuses only on relevant, recent communications, as outlined in the "Post-Submission Modification Task" requirements.
+
 ## Project Overview
 This tool automates the process of reading incoming emails from a Gmail account and logging them into a Google Sheet. It uses the official Google APIs to fetch unread emails, parses their content, and appends them to a spreadsheet while ensuring no duplicates are created.
 
