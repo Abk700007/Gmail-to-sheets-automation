@@ -2,6 +2,8 @@ import sys
 import json
 import os
 import socket
+from datetime import datetime, timedelta, timezone
+from email.utils import parsedate_to_datetime # <--- NEW: For parsing email dates
 from gmail_service import get_gmail_service, fetch_unread_messages, get_message_details, mark_messages_as_read
 from sheets_service import get_sheets_service, append_to_sheet
 from email_parser import parse_email
@@ -35,6 +37,10 @@ def main():
     processed_ids = load_processed_ids()
     print("Checking for new emails...")
     
+    # --- MODIFICATION TASK: Define 24-hour cutoff ---
+    cutoff_time = datetime.now(timezone.utc) - timedelta(hours=24)
+    print(f"Modification Task Active: Filtering emails received after {cutoff_time.strftime('%Y-%m-%d %H:%M:%S')} UTC")
+    
     messages = fetch_unread_messages(gmail_service)
     
     if not messages:
@@ -54,6 +60,24 @@ def main():
         try:
             msg_detail = get_message_details(gmail_service, msg_id)
             email_data = parse_email(msg_detail)
+            
+            # --- START MODIFICATION LOGIC ---
+            # Check if the email is older than 24 hours
+            try:
+                # Parse the date string from Gmail headers into a datetime object
+                email_date = parsedate_to_datetime(email_data['Date'])
+                
+                # Compare email date with our cutoff time
+                if email_date < cutoff_time:
+                    print(f"Skipping old email from {email_date} (Older than 24h)")
+                    
+                    # We mark it as read so we don't fetch it again next time
+                    mark_messages_as_read(gmail_service, [msg_id])
+                    processed_ids.add(msg_id)
+                    continue
+            except Exception as e:
+                print(f"Warning: Date parsing error for email {msg_id}: {e}. Processing anyway.")
+            # --- END MODIFICATION LOGIC ---
             
             # Truncate content to 30k chars
             clean_content = email_data['Content']
@@ -95,7 +119,9 @@ def main():
         processed_ids.update(current_batch_ids)
         save_processed_ids(processed_ids)
         print("Final batch saved!")
-
+    
+    # Save state one last time to be safe
+    save_processed_ids(processed_ids)
     print("\nJob Done.")
 
 if __name__ == '__main__':
